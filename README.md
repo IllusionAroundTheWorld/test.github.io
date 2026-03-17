@@ -1,25 +1,7 @@
-<div align="center">
-<h1> A Fully Functional Restaurant Website </h1>
-
-
-[Live Preview](https://rainyroof.vercel.app/)
-
-Don't forget to :star: the repo if you like it :blush:
-
-
-
-<br>
-
-![img 1](img/1.png)
-![img 2](img/2.png)
-![img 3](img/3.png)
-![img 4](img/4.png)
-![img 5](img/5.png)
-![img 6](img/6.png)
-![img 7](img/7.png)
-![img 8](img/8.png)
-![img 9](img/9.png)
-
-</div>
-
-[![Stargazers repo roster for @FahimFBA/RainyRoof_Restaurant_Website](https://reporoster.com/stars/FahimFBA/RainyRoof_Restaurant_Website)](https://github.com/FahimFBA/RainyRoof_Restaurant_Website/stargazers)
+<h1>Professional Food Resturant Responsize Website :</h1>
+<h3>Step 1:</h3>
+<p>Download the Project using the git command <code>git clone &gt;GitRepoLink&lt; </code>.</p> 
+<h3>Step 2:</h3>
+<p>Then npm to install the live-server globally <code>sudo npm install -i live-server </code>.</p> 
+<h3>Step 3:</h3>
+<p>Go to project inside the file & start the live server using the command <code>live-server</code></p>
