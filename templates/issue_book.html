@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Issue Book</title>
+    <style>
+        /* Same styles as provided */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            height: 100vh;
+        }
+        .sidebar h2 {
+            text-align: center;
+        }
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            padding: 15px;
+            cursor: pointer;
+            border-bottom: 1px solid #444;
+            text-align: center;
+        }
+        .sidebar ul li a {
+            text-decoration: none;
+            color: white;
+            display: block;
+        }
+        .sidebar ul li:hover, .sidebar ul li.active {
+            background-color: #FFC107; /* Changed from #6F2DA8 to yellow */
+        }
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            background-color: white;
+            text-align: center;
+        }
+        .main-content h1 {
+            color: #FFC107; /* Changed from #6F2DA8 to yellow */
+            margin-bottom: 20px;
+        }
+        .form-container {
+            max-width: 450px;
+            width: 85%;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            font-size: 14px;
+        }
+        .form-group {
+            margin-bottom: 12px;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+        .btn {
+            background-color: #FFC107; /* Changed from #6F2DA8 to yellow */
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 100%;
+            font-size: 14px;
+        }
+        .btn:hover {
+            background-color: #FFA000; /* Darker yellow for hover (was #5a1e85) */
+        }
+        .logo {
+            max-width: 20%; /* Changed from 35% to 20% for smaller size */
+            height: auto;
+            margin-bottom: 5px;
+        }
+        .alert {
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+    <script>
+        // Update book details based on selection
+        function updateBookDetails() {
+            const bookSelect = document.getElementById('book_id');
+            const selectedOption = bookSelect.options[bookSelect.selectedIndex];
+            document.getElementById('book_name').value = selectedOption.getAttribute('data-book_name') || '';
+            document.getElementById('author_name').value = selectedOption.getAttribute('data-author_name') || '';
+            document.getElementById('publisher').value = selectedOption.getAttribute('data-publisher') || '';
+        }
+
+        // Fetch student details via AJAX
+        function fetchStudentDetails() {
+            const roll = document.getElementById('student_roll').value;
+            if (roll) {
+                fetch('/get_student?roll=' + encodeURIComponent(roll))
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.error) {
+                            alert(data.error);
+                            document.getElementById('student_name').value = '';
+                            document.getElementById('course_batch').value = '';
+                            document.getElementById('phone').value = '';
+                            document.getElementById('student_email').value = '';
+                        } else {
+                            document.getElementById('student_name').value = data.name;
+                            document.getElementById('course_batch').value = `${data.course} - ${data.batch}`;
+                            document.getElementById('phone').value = data.phone;
+                            document.getElementById('student_email').value = data.email;
+                        }
+                    })
+                    .catch(error => console.error('Error fetching student:', error));
+            }
+        }
+
+        // Provide feedback during form submission
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form');
+            form.addEventListener('submit', function() {
+                const submitButton = form.querySelector('button[type="submit"]');
+                submitButton.textContent = 'Issuing...';
+                submitButton.disabled = true;
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Admin Dashboard</h2>
+        <ul>
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('new_book') }}">New Book</a></li>
+            <li><a href="{{ url_for('new_student') }}">New Student</a></li>
+            <li><a href="{{ url_for('new_staff') }}">New Staff</a></li>
+            <li class="active"><a href="{{ url_for('issue_book') }}">Issue Book</a></li>
+            <li><a href="{{ url_for('staff_issue_book') }}">Staff Issue Book</a></li>
+            <li><a href="{{ url_for('return_book') }}">Return Book</a></li>
+            <li><a href="{{ url_for('staff_return_book') }}">Staff Return Book</a></li>
+            <li><a href="{{ url_for('edit_book') }}">Edit Book Details</a></li>
+            <li><a href="{{ url_for('edit_student') }}">Edit Student Details</a></li>
+            <li><a href="{{ url_for('edit_staff') }}">Edit Staff Details</a></li>
+            <li><a href="{{ url_for('view_details') }}">View Details</a></li>
+            <li><a href="{{ url_for('logout') }}" style="color: red;">Logout</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <img src="{{ url_for('static', filename='Logo.jpg') }}" alt="College Logo" class="logo">
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- Form Container -->
+        <div class="form-container">
+            <form action="{{ url_for('issue_book') }}" method="POST">
+                <div class="form-group">
+                    <label for="book_id">Book ID</label>
+                    <select id="book_id" name="book_id" onchange="updateBookDetails()" required>
+                        <option value="">Select a Book</option>
+                        {% for book in books %}
+                            <option value="{{ book[0] }}"
+                                    data-book_name="{{ book[1] }}"
+                                    data-author_name="{{ book[2] }}"
+                                    data-publisher="{{ book[3] }}">
+                                {{ book[0] }} - {{ book[1] }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="book_name">Book Name</label>
+                    <input type="text" id="book_name" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="author_name">Author Name</label>
+                    <input type="text" id="author_name" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="publisher">Publisher</label>
+                    <input type="text" id="publisher" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="student_roll">Student Roll Number</label>
+                    <input type="text" id="student_roll" name="student_roll" onblur="fetchStudentDetails()" required>
+                </div>
+                <div class="form-group">
+                    <label for="student_name">Student Name</label>
+                    <input type="text" id="student_name" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="course_batch">Course and Batch</label>
+                    <input type="text" id="course_batch" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="student_email">Student Email</label>
+                    <input type="email" id="student_email" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="issue_date">Date of Issue</label>
+                    <input type="date" id="issue_date" name="issue_date" value="{{ today }}" readonly>
+                </div>
+                <button type="submit" class="btn">Issue Book</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

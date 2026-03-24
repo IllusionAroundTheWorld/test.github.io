@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            height: 100vh;
+        }
+        .sidebar h2 {
+            text-align: center;
+        }
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            padding: 15px;
+            cursor: pointer;
+            border-bottom: 1px solid #444;
+            text-align: center;
+        }
+        .sidebar ul li a {
+            text-decoration: none;
+            color: white;
+            display: block;
+        }
+        .sidebar ul li:hover, .sidebar ul li.active {
+            background-color: #FFC107; /* Changed from #6F2DA8 to yellow */
+        }
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            background-color: white;
+            text-align: center;
+        }
+        .main-content h1 {
+            color: #FFC107; /* Changed from #6F2DA8 to yellow */
+        }
+        .logo {
+            max-width: 20%; /* Changed from 35% to 20% for smaller size */
+            height: auto;
+            margin-bottom: 5px;
+        }
+        /* Slider Styles */
+        .slider-container {
+            width: 80%;
+            margin: 20px auto;
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        .slides {
+            display: flex;
+            width: 100%;
+            transition: transform 0.5s ease-in-out;
+        }
+        .slide {
+            min-width: 100%;
+            box-sizing: border-box;
+        }
+        .slide img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+        .slide-caption {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            color: white;
+            background: rgba(255, 193, 7, 0.7); /* Changed from #6F2DA8 to yellow with opacity */
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #FFC107; /* Changed from #6F2DA8 to yellow */
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 18px;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .prev-btn {
+            left: 10px;
+        }
+        .next-btn {
+            right: 10px;
+        }
+        .slider-btn:hover {
+            background-color: #FFA000; /* Darker yellow for hover (was #5a1e85) */
+        }
+        .dots {
+            text-align: center;
+            padding: 10px 0;
+        }
+        .dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            margin: 0 5px;
+            background-color: #bbb;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .dot.active {
+            background-color: #FFC107; /* Changed from #6F2DA8 to yellow */
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Admin Dashboard</h2>
+        <ul>
+            <li class="active"><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('new_book') }}">New Book</a></li>
+            <li><a href="{{ url_for('new_student') }}">New Student</a></li>
+            <li><a href="{{ url_for('new_staff') }}">New Staff</a></li>
+            <li><a href="{{ url_for('issue_book') }}">Issue Book</a></li>
+            <li><a href="{{ url_for('staff_issue_book') }}">Staff Issue Book</a></li>
+            <li><a href="{{ url_for('return_book') }}">Return Book</a></li>
+            <li><a href="{{ url_for('staff_return_book') }}">Staff Return Book</a></li>
+            <li><a href="{{ url_for('edit_book') }}">Edit Book Details</a></li>
+            <li><a href="{{ url_for('edit_student') }}">Edit Student Details</a></li>
+            <li><a href="{{ url_for('edit_staff') }}">Edit Staff Details</a></li>
+            <li><a href="{{ url_for('view_details') }}">View Details</a></li>
+            <li><a href="{{ url_for('logout') }}" style="color: red;">Logout</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <img src="{{ url_for('static', filename='Logo.jpg') }}" alt="College Logo" class="logo">
+
+
+        <!-- Slider -->
+        <div class="slider-container">
+            <div class="slides">
+                <div class="slide">
+                    <img src="{{ url_for('static', filename='banner.png') }}" alt="Slide 1">
+                </div>
+                <div class="slide">
+                    <img src="{{ url_for('static', filename='banner2.png') }}" alt="Slide 2">
+                </div>
+                <div class="slide">
+                    <img src="{{ url_for('static', filename='banner3.png') }}" alt="Slide 3">
+                </div>
+            </div>
+            <button class="slider-btn prev-btn">❮</button>
+            <button class="slider-btn next-btn">❯</button>
+            <div class="dots">
+                <span class="dot active" onclick="currentSlide(0)"></span>
+                <span class="dot" onclick="currentSlide(1)"></span>
+                <span class="dot" onclick="currentSlide(2)"></span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let slideIndex = 0;
+        const slides = document.querySelector('.slides');
+        const totalSlides = document.querySelectorAll('.slide').length;
+        const dots = document.querySelectorAll('.dot');
+
+        function showSlide(index) {
+            if (index >= totalSlides) slideIndex = 0;
+            if (index < 0) slideIndex = totalSlides - 1;
+            slides.style.transform = `translateX(-${slideIndex * 100}%)`;
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === slideIndex);
+            });
+        }
+
+        function currentSlide(index) {
+            slideIndex = index;
+            showSlide(slideIndex);
+        }
+
+        document.querySelector('.prev-btn').addEventListener('click', () => {
+            slideIndex--;
+            showSlide(slideIndex);
+        });
+
+        document.querySelector('.next-btn').addEventListener('click', () => {
+            slideIndex++;
+            showSlide(slideIndex);
+        });
+
+        // Auto-slide every 5 seconds
+        setInterval(() => {
+            slideIndex++;
+            showSlide(slideIndex);
+        }, 5000);
+
+        // Initial display
+        showSlide(slideIndex);
+    </script>
+</body>
+</html>

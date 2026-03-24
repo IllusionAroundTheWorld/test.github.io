@@ -1,0 +1,22 @@
+# requirements.txt
+
+# Web framework
+Flask==2.3.3
+
+# Security for password hashing
+Werkzeug==2.3.7
+
+# Database connectivity for SQL Server
+pyodbc==4.0.39
+
+# PDF generation
+reportlab==4.0.4
+
+# For handling file operations
+Pillow==10.0.0  # Required for ReportLab image handling
+
+# HTTP requests (though not heavily used in your code)
+requests==2.31.0
+
+# Optional: For better development experience
+python-dotenv==1.0.0  # For managing environment variables

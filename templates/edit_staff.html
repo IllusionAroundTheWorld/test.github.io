@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Staff Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            height: 100vh;
+        }
+        .sidebar h2 {
+            text-align: center;
+        }
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            padding: 15px;
+            cursor: pointer;
+            border-bottom: 1px solid #444;
+            text-align: center;
+        }
+        .sidebar ul li a {
+            text-decoration: none;
+            color: white;
+            display: block;
+        }
+        .sidebar ul li:hover, .sidebar ul li.active {
+            background-color: #FFC107; /* Changed from #6F2DA8 to yellow */
+        }
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            background-color: white;
+            text-align: center;
+        }
+        .main-content h1 {
+            color: #FFC107; /* Changed from #6F2DA8 to yellow */
+            margin-bottom: 20px;
+        }
+        .logo {
+            max-width: 20%; /* Changed from 35% to 20% for smaller size */
+            height: auto;
+            margin-bottom: 5px;
+        }
+        .alert {
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        table {
+            width: 90%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #FFC107; /* Changed from #6F2DA8 to yellow */
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .btn {
+            background-color: #FFC107; /* Changed from #6F2DA8 to yellow */
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .btn:hover {
+            background-color: #FFA000; /* Darker yellow for hover (was #5a1e85) */
+        }
+        .btn-delete {
+            background-color: #dc3545;
+        }
+        .btn-delete:hover {
+            background-color: #c82333;
+        }
+        input, select {
+            width: 100%;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Admin Dashboard</h2>
+        <ul>
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('new_book') }}">New Book</a></li>
+            <li><a href="{{ url_for('new_student') }}">New Student</a></li>
+            <li><a href="{{ url_for('new_staff') }}">New Staff</a></li>
+            <li><a href="{{ url_for('issue_book') }}">Issue Book</a></li>
+            <li><a href="{{ url_for('staff_issue_book') }}">Staff Issue Book</a></li>
+            <li><a href="{{ url_for('return_book') }}">Return Book</a></li>
+            <li><a href="{{ url_for('staff_return_book') }}">Staff Return Book</a></li>
+            <li><a href="{{ url_for('edit_book') }}">Edit Book Details</a></li>
+            <li><a href="{{ url_for('edit_student') }}">Edit Student Details</a></li>
+            <li class="active"><a href="{{ url_for('edit_staff') }}">Edit Staff Details</a></li>
+            <li><a href="{{ url_for('view_details') }}">View Details</a></li>
+            <li><a href="{{ url_for('logout') }}" style="color: red;">Logout</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <img src="{{ url_for('static', filename='Logo.jpg') }}" alt="College Logo" class="logo">
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- Staff Table -->
+        {% if staff %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Staff Register ID</th>
+                        <th>Staff Name</th>
+                        <th>Designation</th>
+                        <th>Date of Birth</th>
+                        <th>Gender</th> <!-- Added Gender column -->
+                        <th>Email</th>  <!-- Added Email column -->
+                        <th>Phone Number</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for member in staff %}
+                        <tr>
+                            <form action="{{ url_for('edit_staff') }}" method="POST">
+                                <td><input type="text" name="staff_register" value="{{ member[0] }}" readonly></td>
+                                <td><input type="text" name="staff_name" value="{{ member[1] }}" required></td>
+                                <td>
+                                    <select name="designation" required>
+                                        <option value="Principal" {% if member[2] == 'Principal' %}selected{% endif %}>Principal</option>
+                                        <option value="HOD" {% if member[2] == 'HOD' %}selected{% endif %}>HOD</option>
+                                        <option value="Professor" {% if member[2] == 'Professor' %}selected{% endif %}>Professor</option>
+                                        <option value="Assistant Professor" {% if member[2] == 'Assistant Professor' %}selected{% endif %}>Assistant Professor</option>
+                                        <option value="Associate Professor" {% if member[2] == 'Associate Professor' %}selected{% endif %}>Associate Professor</option>
+                                        <option value="Lecturer" {% if member[2] == 'Lecturer' %}selected{% endif %}>Lecturer</option>
+                                    </select>
+                                </td>
+                                <td><input type="date" name="date_of_birth" value="{{ member[3] }}" required></td>
+                                <td>
+                                    <select name="gender" required>
+                                        <option value="Male" {% if member[4] == 'Male' %}selected{% endif %}>Male</option>
+                                        <option value="Female" {% if member[4] == 'Female' %}selected{% endif %}>Female</option>
+                                        <option value="Other" {% if member[4] == 'Other' %}selected{% endif %}>Other</option>
+                                    </select>
+                                </td> <!-- Added Gender select -->
+                                <td><input type="email" name="email" value="{{ member[5] }}" required></td> <!-- Added Email input -->
+                                <td><input type="tel" name="phone_number" value="{{ member[6] }}" pattern="[0-9]{10}" title="Enter a 10-digit phone number" required></td> <!-- Phone shifted -->
+                                <td>
+                                    <button type="submit" name="action" value="edit" class="btn">Update</button>
+                                    <button type="submit" name="action" value="delete" class="btn btn-delete">Delete</button>
+                                </td>
+                            </form>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No staff found in the database.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

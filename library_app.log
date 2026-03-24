@@ -1,0 +1,26 @@
+2025-03-07 21:09:39,342 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-03-07 21:09:39,342 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-03-07 21:09:39,344 - werkzeug - INFO -  * Restarting with stat
+2025-03-07 21:09:39,972 - werkzeug - WARNING -  * Debugger is active!
+2025-03-07 21:09:39,974 - werkzeug - INFO -  * Debugger PIN: 120-597-217
+2025-03-07 21:10:11,154 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-03-07 21:10:11,162 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-03-07 21:10:11,166 - werkzeug - INFO -  * Restarting with stat
+2025-03-07 21:10:12,569 - werkzeug - WARNING -  * Debugger is active!
+2025-03-07 21:10:12,572 - werkzeug - INFO -  * Debugger PIN: 120-597-217
+2025-03-07 21:11:10,035 - werkzeug - INFO -  * Detected change in 'C:\\Users\\narai\\OneDrive\\Pictures\\Python Project\\Library Management System Govt\\main.py', reloading
+2025-03-07 21:11:10,104 - werkzeug - INFO -  * Restarting with stat
+2025-03-07 21:11:10,791 - werkzeug - WARNING -  * Debugger is active!
+2025-03-07 21:11:10,795 - werkzeug - INFO -  * Debugger PIN: 120-597-217
+2025-03-07 21:11:19,164 - werkzeug - INFO -  * Detected change in 'C:\\Users\\narai\\OneDrive\\Pictures\\Python Project\\Library Management System Govt\\main.py', reloading
+2025-03-07 21:11:19,285 - werkzeug - INFO -  * Restarting with stat
+2025-03-07 21:11:21,304 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-03-07 21:11:21,305 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-03-07 21:11:21,307 - werkzeug - INFO -  * Restarting with stat
+2025-03-07 21:11:22,013 - werkzeug - WARNING -  * Debugger is active!
+2025-03-07 21:11:22,016 - werkzeug - INFO -  * Debugger PIN: 120-597-217
+2025-03-07 21:12:06,190 - werkzeug - INFO -  * Detected change in 'C:\\Users\\narai\\OneDrive\\Pictures\\Python Project\\Library Management System Govt\\main.py', reloading
+2025-03-07 21:12:06,228 - werkzeug - INFO -  * Restarting with stat
